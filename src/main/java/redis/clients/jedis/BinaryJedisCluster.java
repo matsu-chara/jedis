@@ -30,26 +30,27 @@ public class BinaryJedisCluster implements BinaryJedisClusterCommands,
 
   protected JedisClusterConnectionHandler connectionHandler;
 
-  public BinaryJedisCluster(Set<HostAndPort> nodes, int timeout) {
-    this(nodes, timeout, DEFAULT_MAX_REDIRECTIONS, new GenericObjectPoolConfig());
-  }
-
   public BinaryJedisCluster(Set<HostAndPort> nodes) {
     this(nodes, DEFAULT_TIMEOUT);
   }
 
-  public BinaryJedisCluster(Set<HostAndPort> jedisClusterNode, int timeout, int maxAttempts,
-      final GenericObjectPoolConfig poolConfig) {
-    this.connectionHandler = new JedisSlotBasedConnectionHandler(jedisClusterNode, poolConfig,
-        timeout);
-    this.maxAttempts = maxAttempts;
+  public BinaryJedisCluster(Set<HostAndPort> nodes, int timeout) {
+    this(nodes, timeout, DEFAULT_MAX_REDIRECTIONS, new GenericObjectPoolConfig());
   }
 
-  public BinaryJedisCluster(Set<HostAndPort> jedisClusterNode, int connectionTimeout,
+  public BinaryJedisCluster(Set<HostAndPort> nodes, int timeout, int maxAttempts,
+      final GenericObjectPoolConfig poolConfig) {
+    this(nodes, timeout, maxAttempts, null, poolConfig);
+  }
+
+  public BinaryJedisCluster(Set<HostAndPort> nodes, int timeout, int maxAttempts, String password,
+                            final GenericObjectPoolConfig poolConfig) {
+    this(nodes, timeout, timeout, maxAttempts, password, poolConfig);
+  }
+
+  public BinaryJedisCluster(Set<HostAndPort> nodes, int connectionTimeout,
                             int soTimeout, int maxAttempts, final GenericObjectPoolConfig poolConfig) {
-    this.connectionHandler = new JedisSlotBasedConnectionHandler(jedisClusterNode, poolConfig,
-        connectionTimeout, soTimeout);
-    this.maxAttempts = maxAttempts;
+    this(nodes, connectionTimeout, soTimeout, maxAttempts, null, poolConfig);
   }
 
   public BinaryJedisCluster(Set<HostAndPort> jedisClusterNode, int connectionTimeout, int soTimeout, int maxAttempts, String password, GenericObjectPoolConfig poolConfig) {

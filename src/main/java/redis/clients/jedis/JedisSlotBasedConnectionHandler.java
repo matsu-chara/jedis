@@ -10,16 +10,6 @@ import redis.clients.jedis.exceptions.JedisNoReachableClusterNodeException;
 
 public class JedisSlotBasedConnectionHandler extends JedisClusterConnectionHandler {
 
-  public JedisSlotBasedConnectionHandler(Set<HostAndPort> nodes,
-      final GenericObjectPoolConfig poolConfig, int timeout) {
-    this(nodes, poolConfig, timeout, timeout);
-  }
-
-  public JedisSlotBasedConnectionHandler(Set<HostAndPort> nodes,
-      final GenericObjectPoolConfig poolConfig, int connectionTimeout, int soTimeout) {
-    super(nodes, poolConfig, connectionTimeout, soTimeout, null);
-  }
-
   public JedisSlotBasedConnectionHandler(Set<HostAndPort> nodes, GenericObjectPoolConfig poolConfig, int connectionTimeout, int soTimeout, String password) {
     super(nodes, poolConfig, connectionTimeout, soTimeout, password);
   }
